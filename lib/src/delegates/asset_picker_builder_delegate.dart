@@ -1192,7 +1192,7 @@ class DefaultAssetPickerBuilderDelegate
               },
             ),
           ),
-          appBar(context),
+          // appBar(context),
         ],
       );
     }
@@ -1268,8 +1268,8 @@ class DefaultAssetPickerBuilderDelegate
         // [gridCount] since every grid item is squeezed by the [itemSpacing],
         // and it's actual size is reduced with [itemSpacing / gridCount].
         final double dividedSpacing = itemSpacing / gridCount;
-        final double topPadding =
-            context.topPadding + appBarPreferredSize!.height;
+        final double topPadding = 0;
+            // context.topPadding + appBarPreferredSize!.height;
 
         final textDirection = Directionality.of(context);
         Widget sliverGrid(BuildContext context, List<AssetEntity> assets) {
@@ -1365,10 +1365,10 @@ class DefaultAssetPickerBuilderDelegate
                       anchor: gridRevert ? anchor : 0,
                       center: gridRevert ? gridRevertKey : null,
                       slivers: <Widget>[
-                        if (isAppleOS(context))
-                          SliverGap.v(
-                            context.topPadding + appBarPreferredSize!.height,
-                          ),
+                        // if (isAppleOS(context))
+                        //   SliverGap.v(
+                        //     context.topPadding + appBarPreferredSize!.height,
+                        //   ),
                         sliverGrid(context, assets),
                         // Ignore the gap when the [anchor] is not equal to 1.
                         if (gridRevert && anchor == 1) bottomGap,
@@ -2441,6 +2441,7 @@ class DefaultAssetPickerBuilderDelegate
         child: CNP<DefaultAssetPickerProvider>.value(
           value: provider,
           builder: (BuildContext context, _) => Scaffold(
+            appBar: appBar(context),
             backgroundColor: theme.scaffoldBackgroundColor,
             body: Stack(
               fit: StackFit.expand,
