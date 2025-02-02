@@ -556,10 +556,11 @@ class DefaultAssetPickerViewerBuilderDelegate
 
   @override
   Widget bottomDetailBuilder(BuildContext context) {
-    final backgroundColor = themeData.bottomAppBarTheme.color?.withOpacity(
-      themeData.bottomAppBarTheme.color!.opacity *
-          (isAppleOS(context) ? .9 : 1),
-    );
+    final backgroundColor = themeData.appBarTheme.backgroundColor;
+    //     ?.withOpacity(
+    //   themeData.bottomAppBarTheme.color!.opacity *
+    //       (isAppleOS(context) ? .9 : 1),
+    // );
     return ValueListenableBuilder(
       valueListenable: isDisplayingDetail,
       builder: (_, v, child) => AnimatedPositionedDirectional(
@@ -599,15 +600,8 @@ class DefaultAssetPickerViewerBuilderDelegate
               padding: const EdgeInsets.symmetric(horizontal: 20.0)
                   .copyWith(bottom: context.bottomPadding),
               decoration: BoxDecoration(
-                border: Border(top: BorderSide(color: themeData.canvasColor)),
+                // border: Border(top: BorderSide(color: themeData.primaryColor)),
                 color: backgroundColor,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  if (provider != null || isWeChatMoment)
-                    confirmButton(context),
-                ],
               ),
             ),
           ],
@@ -700,7 +694,7 @@ class DefaultAssetPickerViewerBuilderDelegate
                           decoration: BoxDecoration(
                             border: isViewing
                                 ? Border.all(
-                                    color: themeData.colorScheme.secondary,
+                                    color: themeData.primaryColor,
                                     width: 3,
                                   )
                                 : null,
