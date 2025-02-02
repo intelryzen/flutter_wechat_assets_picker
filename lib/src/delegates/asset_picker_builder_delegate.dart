@@ -1881,24 +1881,26 @@ class DefaultAssetPickerBuilderDelegate
                         (PathWrapper<AssetPathEntity> p) => p.assetCount != 0,
                       )
                       .toList();
-                  return ListView.separated(
-                    padding: const EdgeInsetsDirectional.only(
-                      top: 20,
-                      start: 20,
-                      end: 20,
-                      bottom: 20,
-                    ),
-                    shrinkWrap: true,
-                    itemCount: filtered.length,
-                    itemBuilder: (BuildContext c, int i) => pathEntityWidget(
-                      context: c,
-                      list: filtered,
-                      index: i,
-                    ),
-                    separatorBuilder: (_, __) => Divider(
-                      // margin: const EdgeInsetsDirectional.only(start: 60),
-                      height: 30,
-                      color: theme.dividerTheme.color,
+                  return Scrollbar(
+                    child: ListView.separated(
+                      padding: const EdgeInsetsDirectional.only(
+                        top: 20,
+                        start: 20,
+                        end: 20,
+                        bottom: 20,
+                      ),
+                      shrinkWrap: true,
+                      itemCount: filtered.length,
+                      itemBuilder: (BuildContext c, int i) => pathEntityWidget(
+                        context: c,
+                        list: filtered,
+                        index: i,
+                      ),
+                      separatorBuilder: (_, __) => Divider(
+                        // margin: const EdgeInsetsDirectional.only(start: 60),
+                        height: 30,
+                        color: theme.dividerTheme.color,
+                      ),
                     ),
                   );
                 },
