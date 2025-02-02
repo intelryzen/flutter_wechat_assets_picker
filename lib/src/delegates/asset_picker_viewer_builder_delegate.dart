@@ -877,11 +877,13 @@ class DefaultAssetPickerViewerBuilderDelegate
   Widget _appleOSSelectButton(
     BuildContext context,
     bool isSelected,
+    int selectedIndex,
     AssetEntity asset,
   ) {
     if (!isSelected && selectedMaximumAssets) {
       return const SizedBox.shrink();
     }
+
     return Padding(
       padding: const EdgeInsetsDirectional.only(end: 10.0),
       child: GestureDetector(
@@ -894,13 +896,23 @@ class DefaultAssetPickerViewerBuilderDelegate
           duration: kThemeAnimationDuration,
           width: 28.0,
           decoration: BoxDecoration(
-            border: !isSelected
-                ? Border.all(color: themeData.iconTheme.color!)
-                : null,
-            color: isSelected ? themeData.colorScheme.secondary : null,
+            border: Border.all(
+              color: isSelected ? Colors.white : Colors.grey.shade300,
+            ),
+            color: isSelected ? themeData.primaryColor : null,
             shape: BoxShape.circle,
           ),
-          child: const Center(child: Icon(Icons.check, size: 20.0)),
+          child: isSelected
+              ? Center(
+                  child: Text(
+                    '${selectedIndex + 1}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              : null,
         ),
       ),
     );
@@ -954,6 +966,8 @@ class DefaultAssetPickerViewerBuilderDelegate
             selector: (_, p) => p.currentlySelectedAssets,
             builder: (context, assets, _) {
               final bool isSelected = assets.contains(asset);
+              final int selectedIndex = assets.indexOf(asset);
+
               return Semantics(
                 selected: isSelected,
                 label: semanticsTextDelegate.select,
@@ -966,7 +980,8 @@ class DefaultAssetPickerViewerBuilderDelegate
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     if (isAppleOS(context))
-                      _appleOSSelectButton(context, isSelected, asset)
+                      _appleOSSelectButton(
+                          context, isSelected, selectedIndex, asset)
                     else
                       _androidSelectButton(context, isSelected, asset),
                     if (!isAppleOS(context))
