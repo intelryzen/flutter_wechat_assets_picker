@@ -1116,6 +1116,9 @@ class DefaultAssetPickerBuilderDelegate
           color: theme.dividerTheme.color,
         ),
       ),
+      actions: [
+        confirmButton(context),
+      ],
     );
     appBarPreferredSize ??= appBar.preferredSize;
     return appBar;
@@ -1673,37 +1676,50 @@ class DefaultAssetPickerBuilderDelegate
         final bool isSelectedNotEmpty = p.isSelectedNotEmpty;
         final bool shouldAllowConfirm =
             isSelectedNotEmpty || p.previousSelectedAssets.isNotEmpty;
-        return MaterialButton(
-          minWidth: shouldAllowConfirm ? 48 : 20,
-          height: appBarItemHeight,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          color: theme.colorScheme.secondary,
-          disabledColor: theme.splashColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(3),
-          ),
-          onPressed: shouldAllowConfirm
+        return InkWell(
+          onTap: isSelectedNotEmpty
               ? () {
                   Navigator.maybeOf(context)?.maybePop(p.selectedAssets);
                 }
               : null,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          child: ScaleText(
-            isSelectedNotEmpty && !isSingleAssetMode
-                ? '${textDelegate.confirm}'
-                    ' (${p.selectedAssets.length}/${p.maxAssets})'
-                : textDelegate.confirm,
-            style: TextStyle(
-              color: shouldAllowConfirm
-                  ? theme.textTheme.bodyLarge?.color
-                  : theme.textTheme.bodySmall?.color,
-              fontSize: 17,
-              fontWeight: FontWeight.normal,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          child: SizedBox(
+            height: appBarItemHeight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                children: [
+                  if (isSelectedNotEmpty && !isSingleAssetMode)
+                    ScaleText(
+                      '${p.selectedAssets.length} ',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : theme.primaryColor,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      semanticsLabel:
+                          '(${p.selectedAssets.length}/${p.maxAssets})',
+                    ),
+                  ScaleText(
+                    semanticsTextDelegate.confirm,
+                    style: TextStyle(
+                      color: shouldAllowConfirm
+                          ? theme.textTheme.bodyLarge?.color
+                          : theme.disabledColor,
+                      fontSize: 17,
+                      height: 1,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    semanticsLabel: semanticsTextDelegate.confirm,
+                  ),
+                ],
+              ),
             ),
-            semanticsLabel: isSelectedNotEmpty && !isSingleAssetMode
-                ? '${semanticsTextDelegate.confirm}'
-                    ' (${p.selectedAssets.length}/${p.maxAssets})'
-                : semanticsTextDelegate.confirm,
           ),
         );
       },
@@ -2416,8 +2432,6 @@ class DefaultAssetPickerBuilderDelegate
             children: <Widget>[
               if (isPreviewEnabled) previewButton(context),
               if (isPreviewEnabled || !isSingleAssetMode) const Spacer(),
-              if (isPreviewEnabled || !isSingleAssetMode)
-                confirmButton(context),
             ],
           ),
         ),
