@@ -1914,10 +1914,11 @@ class DefaultAssetPickerBuilderDelegate
       return Flexible(
         child: ScaleText(
           text,
-          style: const TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.normal,
-          ),
+          style: pickerTheme?.appBarTheme.titleTextStyle ??
+              const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.normal,
+              ),
           maxLines: 1,
           overflow: TextOverflow.fade,
           maxScaleFactor: 1.2,
