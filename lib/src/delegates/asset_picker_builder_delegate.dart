@@ -1696,9 +1696,7 @@ class DefaultAssetPickerBuilderDelegate
                     ScaleText(
                       '${p.selectedAssets.length} ',
                       style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : theme.primaryColor,
+                        color: theme.primaryColor,
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
@@ -2211,33 +2209,43 @@ class DefaultAssetPickerBuilderDelegate
   @override
   Widget selectIndicator(BuildContext context, int index, AssetEntity asset) {
     final double indicatorSize =
-        MediaQuery.sizeOf(context).width / gridCount / 3;
+        MediaQuery.sizeOf(context).width / gridCount / 4;
     final Duration duration = switchingPathDuration * 0.75;
-    return Selector<DefaultAssetPickerProvider, String>(
-      selector: (_, DefaultAssetPickerProvider p) => p.selectedDescriptions,
-      builder: (BuildContext context, String descriptions, __) {
-        final bool selected = descriptions.contains(asset.toString());
+    return Selector<DefaultAssetPickerProvider, Map<String, dynamic>>(
+      selector: (_, DefaultAssetPickerProvider p) => {
+        'selectedDescriptions': p.selectedDescriptions,
+        'selectedAssets': p.selectedAssets
+      },
+      builder: (BuildContext context, Map<String, dynamic> data, __) {
+        final bool selected =
+            data['selectedDescriptions'].contains(asset.toString());
+        final int selectedIndex = data['selectedAssets'].indexOf(asset);
         final Widget innerSelector = AnimatedContainer(
           duration: duration,
           width: indicatorSize / (isAppleOS(context) ? 1.25 : 1.5),
           height: indicatorSize / (isAppleOS(context) ? 1.25 : 1.5),
           padding: EdgeInsets.all(indicatorSize / 10),
           decoration: BoxDecoration(
-            border: !selected
-                ? Border.all(
-                    color: context.theme.unselectedWidgetColor,
-                    width: indicatorSize / 25,
-                  )
-                : null,
-            color: selected ? themeColor : null,
+            border: Border.all(
+              color: selected ? Colors.white : Colors.grey.shade300,
+              width: indicatorSize / 25,
+            ),
+            color: selected ? theme.primaryColor : null,
             shape: BoxShape.circle,
           ),
           child: FittedBox(
             child: AnimatedSwitcher(
               duration: duration,
               reverseDuration: duration,
-              child:
-                  selected ? const Icon(Icons.check) : const SizedBox.shrink(),
+              child: selected
+                  ? Text(
+                      '${selectedIndex + 1}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
             ),
           ),
         );
@@ -2287,29 +2295,33 @@ class DefaultAssetPickerBuilderDelegate
               duration: switchingPathDuration,
               padding: EdgeInsets.all(indicatorSize * .35),
               color: selected
-                  ? theme.colorScheme.primary.withOpacity(.45)
-                  : theme.colorScheme.background.withOpacity(.1),
-              child: selected && !isSingleAssetMode
-                  ? Align(
-                      alignment: AlignmentDirectional.topStart,
-                      child: SizedBox(
-                        height: indicatorSize / 2.5,
-                        child: FittedBox(
-                          alignment: AlignmentDirectional.topStart,
-                          fit: BoxFit.cover,
-                          child: Text(
-                            '${index + 1}',
-                            style: TextStyle(
-                              color: theme.textTheme.bodyLarge?.color
-                                  ?.withOpacity(.75),
-                              fontWeight: FontWeight.w600,
-                              height: 1,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
+                  ? Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white.withOpacity(.25)
+                      : Colors.black.withOpacity(.25)
+                  : theme.colorScheme.background.withOpacity(.0),
+              child:
+                  // selected && !isSingleAssetMode
+                  //     ? Align(
+                  //         alignment: AlignmentDirectional.topStart,
+                  //         child: SizedBox(
+                  //           height: indicatorSize / 2.5,
+                  //           child: FittedBox(
+                  //             alignment: AlignmentDirectional.topStart,
+                  //             fit: BoxFit.cover,
+                  //             child: Text(
+                  //               '${index + 1}',
+                  //               style: TextStyle(
+                  //                 color: theme.textTheme.bodyLarge?.color
+                  //                     ?.withOpacity(.75),
+                  //                 fontWeight: FontWeight.w600,
+                  //                 height: 1,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       )
+                  //     :
+                  const SizedBox.shrink(),
             );
           },
         ),
