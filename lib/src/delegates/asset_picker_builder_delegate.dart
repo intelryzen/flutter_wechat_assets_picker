@@ -1822,18 +1822,14 @@ class DefaultAssetPickerBuilderDelegate
               duration: switchingPathDuration,
               curve: switchingPathCurve,
               opacity: !isAppleOS(context) || isSwitchingPath ? 1 : 0,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(10),
+              child: Container(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.sizeOf(context).height,
+                  // maxHeight: MediaQuery.sizeOf(context).height *
+                  //     (isAppleOS(context) ? .6 : .8),
                 ),
-                child: Container(
-                  constraints: BoxConstraints(
-                    maxHeight: MediaQuery.sizeOf(context).height *
-                        (isAppleOS(context) ? .6 : .8),
-                  ),
-                  color: theme.appBarTheme.backgroundColor,
-                  child: child,
-                ),
+                color: theme.appBarTheme.backgroundColor,
+                child: child,
               ),
             ),
           ),
