@@ -556,7 +556,7 @@ class DefaultAssetPickerViewerBuilderDelegate
 
   @override
   Widget bottomDetailBuilder(BuildContext context) {
-    final backgroundColor = themeData.appBarTheme.backgroundColor;
+    // final backgroundColor = themeData.appBarTheme.backgroundColor;
     //     ?.withOpacity(
     //   themeData.bottomAppBarTheme.color!.opacity *
     //       (isAppleOS(context) ? .9 : 1),
@@ -584,7 +584,6 @@ class DefaultAssetPickerViewerBuilderDelegate
                 builder: (_, int count, __) => Container(
                   width: count > 0 ? double.maxFinite : 0,
                   height: bottomPreviewHeight,
-                  color: backgroundColor,
                   child: ListView.builder(
                     controller: previewingListController,
                     scrollDirection: Axis.horizontal,
@@ -596,13 +595,11 @@ class DefaultAssetPickerViewerBuilderDelegate
                 ),
               ),
             Container(
-              height: bottomBarHeight + context.bottomPadding,
               padding: const EdgeInsets.symmetric(horizontal: 20.0)
                   .copyWith(bottom: context.bottomPadding),
-              decoration: BoxDecoration(
+              // decoration: BoxDecoration(
                 // border: Border(top: BorderSide(color: themeData.primaryColor)),
-                color: backgroundColor,
-              ),
+              // ),
             ),
           ],
         ),
@@ -720,12 +717,19 @@ class DefaultAssetPickerViewerBuilderDelegate
   /// 顶栏部件
   Widget appBar(BuildContext context) {
     final bar = AssetPickerAppBar(
+      backgroundColor: Colors.transparent,
+      brightness: Brightness.dark,
       leading: Semantics(
         sortKey: ordinalSortKey(0),
         child: IconButton(
           onPressed: () {
             Navigator.maybeOf(context)?.maybePop();
           },
+          color: Colors.white,
+          splashColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
           tooltip: MaterialLocalizations.of(context).backButtonTooltip,
           icon: Icon(
             Icons.arrow_back_ios_new,
@@ -747,8 +751,9 @@ class DefaultAssetPickerViewerBuilderDelegate
                 builder: (_, AsyncSnapshot<int> snapshot) => ScaleText(
                   '${snapshot.requireData + 1}/${previewAssets.length}',
                   style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -888,7 +893,7 @@ class DefaultAssetPickerViewerBuilderDelegate
         },
         child: AnimatedContainer(
           duration: kThemeAnimationDuration,
-          width: 28.0,
+          width: 33.0,
           decoration: BoxDecoration(
             border: Border.all(
               color: isSelected ? Colors.white : Colors.grey.shade300,
@@ -902,6 +907,7 @@ class DefaultAssetPickerViewerBuilderDelegate
                     '${selectedIndex + 1}',
                     style: const TextStyle(
                       color: Colors.white,
+                      fontSize: 17,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -1017,12 +1023,10 @@ class DefaultAssetPickerViewerBuilderDelegate
     return Theme(
       data: themeData,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: themeData.appBarTheme.systemOverlayStyle ??
-            (themeData.effectiveBrightness.isDark
-                ? SystemUiOverlayStyle.light
-                : SystemUiOverlayStyle.dark),
+        value: SystemUiOverlayStyle.light,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.black,
           body: Stack(
             children: <Widget>[
               Positioned.fill(child: _pageViewBuilder(context)),
