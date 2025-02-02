@@ -1185,7 +1185,7 @@ class DefaultAssetPickerBuilderDelegate
                   child = Stack(
                     children: <Widget>[
                       gridLayout(context),
-                      pathEntityListBackdrop(context),
+                      // pathEntityListBackdrop(context),
                       pathEntityListWidget(context),
                     ],
                   );
