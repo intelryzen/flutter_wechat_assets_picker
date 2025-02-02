@@ -1109,6 +1109,13 @@ class DefaultAssetPickerBuilderDelegate
       ),
       leading: backButton(context),
       blurRadius: 0,
+      bottom: PreferredSize(
+        preferredSize: const Size(0, 1),
+        child: Divider(
+          height: 1,
+          color: theme.dividerTheme.color,
+        ),
+      ),
     );
     appBarPreferredSize ??= appBar.preferredSize;
     return appBar;
@@ -1824,7 +1831,7 @@ class DefaultAssetPickerBuilderDelegate
                     maxHeight: MediaQuery.sizeOf(context).height *
                         (isAppleOS(context) ? .6 : .8),
                   ),
-                  color: theme.colorScheme.background,
+                  color: theme.appBarTheme.backgroundColor,
                   child: child,
                 ),
               ),
@@ -1881,7 +1888,12 @@ class DefaultAssetPickerBuilderDelegate
                       )
                       .toList();
                   return ListView.separated(
-                    padding: const EdgeInsetsDirectional.only(top: 1),
+                    padding: const EdgeInsetsDirectional.only(
+                      top: 20,
+                      start: 20,
+                      end: 20,
+                      bottom: 20,
+                    ),
                     shrinkWrap: true,
                     itemCount: filtered.length,
                     itemBuilder: (BuildContext c, int i) => pathEntityWidget(
@@ -1889,10 +1901,10 @@ class DefaultAssetPickerBuilderDelegate
                       list: filtered,
                       index: i,
                     ),
-                    separatorBuilder: (_, __) => Container(
-                      margin: const EdgeInsetsDirectional.only(start: 60),
-                      height: 1,
-                      color: theme.canvasColor,
+                    separatorBuilder: (_, __) => Divider(
+                      // margin: const EdgeInsetsDirectional.only(start: 60),
+                      height: 30,
+                      color: theme.dividerTheme.color,
                     ),
                   );
                 },
@@ -1956,7 +1968,7 @@ class DefaultAssetPickerBuilderDelegate
               final AssetPathEntity? path = p?.path;
               return Row(
                 mainAxisSize: MainAxisSize.min,
-                 children: <Widget>[
+                children: <Widget>[
                   if (path == null && isPermissionLimited)
                     pathText(
                       context,
@@ -2050,7 +2062,10 @@ class DefaultAssetPickerBuilderDelegate
           child: Material(
             type: MaterialType.transparency,
             child: InkWell(
-              splashFactory: InkSplash.splashFactory,
+              splashColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              focusColor: Colors.transparent,
               onTap: () {
                 Feedback.forTap(context);
                 context.read<DefaultAssetPickerProvider>().switchPath(wrapper);
@@ -2071,24 +2086,40 @@ class DefaultAssetPickerBuilderDelegate
                           end: 20,
                         ),
                         child: ExcludeSemantics(
-                          child: ScaleText.rich(
-                            [
-                              TextSpan(text: name),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ScaleText.rich(
+                                [
+                                  TextSpan(text: name),
+                                ],
+                                style: const TextStyle(fontSize: 18),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                               if (semanticsCount != null)
-                                TextSpan(text: ' ($semanticsCount)'),
+                                ScaleText.rich(
+                                  [
+                                    TextSpan(text: semanticsCount),
+                                  ],
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.grey.shade400
+                                        : Colors.grey.shade600,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                             ],
-                            style: const TextStyle(fontSize: 17),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ),
                     ),
                     if (isSelected)
-                      AspectRatio(
-                        aspectRatio: 1,
-                        child: Icon(Icons.check, color: themeColor, size: 26),
-                      ),
+                      Icon(Icons.check, color: themeColor, size: 26),
                   ],
                 ),
               ),
