@@ -1806,6 +1806,7 @@ class DefaultAssetPickerBuilderDelegate
   @override
   Widget pathEntityListWidget(BuildContext context) {
     appBarPreferredSize ??= appBar(context).preferredSize;
+    final double topPadding = context.topPadding + appBarPreferredSize!.height;
     return Positioned.fill(
       top: 0,
       bottom: null,
@@ -1824,9 +1825,7 @@ class DefaultAssetPickerBuilderDelegate
               opacity: !isAppleOS(context) || isSwitchingPath ? 1 : 0,
               child: Container(
                 constraints: BoxConstraints(
-                  minHeight: MediaQuery.sizeOf(context).height,
-                  // maxHeight: MediaQuery.sizeOf(context).height *
-                  //     (isAppleOS(context) ? .6 : .8),
+                  maxHeight: MediaQuery.sizeOf(context).height - topPadding,
                 ),
                 color: theme.appBarTheme.backgroundColor,
                 child: child,
@@ -1835,7 +1834,6 @@ class DefaultAssetPickerBuilderDelegate
           ),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ValueListenableBuilder<PermissionState>(
               valueListenable: permissionNotifier,
@@ -1873,7 +1871,7 @@ class DefaultAssetPickerBuilderDelegate
                 ),
               ),
             ),
-            Flexible(
+            Expanded(
               child: Selector<DefaultAssetPickerProvider,
                   List<PathWrapper<AssetPathEntity>>>(
                 selector: (_, DefaultAssetPickerProvider p) => p.paths,
