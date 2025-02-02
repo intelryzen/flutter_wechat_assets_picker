@@ -1956,7 +1956,7 @@ class DefaultAssetPickerBuilderDelegate
               final AssetPathEntity? path = p?.path;
               return Row(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                 children: <Widget>[
                   if (path == null && isPermissionLimited)
                     pathText(
                       context,
@@ -1978,25 +1978,19 @@ class DefaultAssetPickerBuilderDelegate
               );
             },
             child: Padding(
-              padding: const EdgeInsetsDirectional.only(start: 5),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: theme.iconTheme.color!.withOpacity(0.5),
-                ),
-                child: ValueListenableBuilder<bool>(
-                  valueListenable: isSwitchingPath,
-                  builder: (_, bool isSwitchingPath, Widget? w) {
-                    return Transform.rotate(
-                      angle: isSwitchingPath ? math.pi : 0,
-                      child: w,
-                    );
-                  },
-                  child: Icon(
-                    Icons.keyboard_arrow_down,
-                    size: 20,
-                    color: theme.colorScheme.primary,
-                  ),
+              padding: const EdgeInsetsDirectional.only(start: 2),
+              child: ValueListenableBuilder<bool>(
+                valueListenable: isSwitchingPath,
+                builder: (_, bool isSwitchingPath, Widget? w) {
+                  return Transform.rotate(
+                    angle: isSwitchingPath ? math.pi : 0,
+                    child: w,
+                  );
+                },
+                child: Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  size: 20,
+                  color: theme.appBarTheme.iconTheme?.color,
                 ),
               ),
             ),
