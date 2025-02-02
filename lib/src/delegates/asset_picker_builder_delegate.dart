@@ -1108,7 +1108,7 @@ class DefaultAssetPickerBuilderDelegate
         child: pathEntitySelector(context),
       ),
       leading: backButton(context),
-      blurRadius: isAppleOS(context) ? appleOSBlurRadius : 0,
+      blurRadius: 0,
     );
     appBarPreferredSize ??= appBar.preferredSize;
     return appBar;
