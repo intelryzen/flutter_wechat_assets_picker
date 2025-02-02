@@ -2114,8 +2114,8 @@ class DefaultAssetPickerBuilderDelegate
                         ),
                       ),
                     ),
-                    if (isSelected)
-                      Icon(Icons.check, color: themeColor, size: 26),
+                    // if (isSelected)
+                    //   Icon(Icons.check, color: themeColor, size: 26),
                   ],
                 ),
               ),
