@@ -2407,10 +2407,11 @@ class DefaultAssetPickerBuilderDelegate
           padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(
             bottom: context.bottomPadding,
           ),
-          color: theme.bottomAppBarTheme.color?.withOpacity(
-            theme.bottomAppBarTheme.color!.opacity *
-                (isAppleOS(context) ? .9 : 1),
-          ),
+          color: theme.bottomAppBarTheme.color,
+          //     ?.withOpacity(
+          //   theme.bottomAppBarTheme.color!.opacity *
+          //       (isAppleOS(context) ? .9 : 1),
+          // ),
           child: Row(
             children: <Widget>[
               if (isPreviewEnabled) previewButton(context),
