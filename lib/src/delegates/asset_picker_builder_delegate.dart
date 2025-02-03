@@ -2437,7 +2437,7 @@ class DefaultAssetPickerBuilderDelegate
           padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(
             bottom: context.bottomPadding,
           ),
-          color: theme.bottomAppBarTheme.color,
+          color: theme.appBarTheme.backgroundColor,
           //     ?.withOpacity(
           //   theme.bottomAppBarTheme.color!.opacity *
           //       (isAppleOS(context) ? .9 : 1),
