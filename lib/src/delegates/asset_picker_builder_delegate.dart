@@ -1369,26 +1369,28 @@ class DefaultAssetPickerBuilderDelegate
                       context.bottomPadding + bottomSectionHeight,
                     );
                     appBarPreferredSize ??= appBar(context).preferredSize;
-                    return CustomScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      controller: gridScrollController,
-                      anchor: gridRevert ? anchor : 0,
-                      center: gridRevert ? gridRevertKey : null,
-                      slivers: <Widget>[
-                        // if (isAppleOS(context))
-                        //   SliverGap.v(
-                        //     context.topPadding + appBarPreferredSize!.height,
-                        //   ),
-                        sliverGrid(context, assets),
-                        // Ignore the gap when the [anchor] is not equal to 1.
-                        if (gridRevert && anchor == 1) bottomGap,
-                        if (gridRevert)
-                          SliverToBoxAdapter(
-                            key: gridRevertKey,
-                            child: const SizedBox.shrink(),
-                          ),
-                        if (isAppleOS(context) && !gridRevert) bottomGap,
-                      ],
+                    return Scrollbar(
+                      child: CustomScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        controller: gridScrollController,
+                        anchor: gridRevert ? anchor : 0,
+                        center: gridRevert ? gridRevertKey : null,
+                        slivers: <Widget>[
+                          // if (isAppleOS(context))
+                          //   SliverGap.v(
+                          //     context.topPadding + appBarPreferredSize!.height,
+                          //   ),
+                          sliverGrid(context, assets),
+                          // Ignore the gap when the [anchor] is not equal to 1.
+                          if (gridRevert && anchor == 1) bottomGap,
+                          if (gridRevert)
+                            SliverToBoxAdapter(
+                              key: gridRevertKey,
+                              child: const SizedBox.shrink(),
+                            ),
+                          if (isAppleOS(context) && !gridRevert) bottomGap,
+                        ],
+                      ),
                     );
                   },
                 ),
