@@ -212,16 +212,8 @@ class AssetPickerAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: child,
     );
 
-    final Widget result = Material(
-      // Wrap to ensure the child rendered correctly.
-      color: Color.lerp(
-        effectiveBackgroundColor,
-        Colors.transparent,
-        blurRadius > 0.0 ? 0.1 : 0.0,
-      ),
-      elevation: elevation,
-      child: child,
-    );
+    final Widget result = child;
+
     return semanticsBuilder?.call(result) ??
         Semantics(
           sortKey: const OrdinalSortKey(0),

@@ -90,7 +90,7 @@ class _ImagePageBuilderState extends State<ImagePageBuilder> {
     c.addListener(() {
       safeSetState(() {});
     });
-  } 
+  }
 
   Widget _imageBuilder(BuildContext context, AssetEntity asset) {
     return ExtendedImage(

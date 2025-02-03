@@ -598,7 +598,7 @@ class DefaultAssetPickerViewerBuilderDelegate
               padding: const EdgeInsets.symmetric(horizontal: 20.0)
                   .copyWith(bottom: context.bottomPadding),
               // decoration: BoxDecoration(
-                // border: Border(top: BorderSide(color: themeData.primaryColor)),
+              // border: Border(top: BorderSide(color: themeData.primaryColor)),
               // ),
             ),
           ],
@@ -719,6 +719,7 @@ class DefaultAssetPickerViewerBuilderDelegate
     final bar = AssetPickerAppBar(
       backgroundColor: Colors.transparent,
       brightness: Brightness.dark,
+      blurRadius: 0,
       leading: Semantics(
         sortKey: ordinalSortKey(0),
         child: IconButton(
@@ -760,25 +761,27 @@ class DefaultAssetPickerViewerBuilderDelegate
             )
           : null,
       actions: [
-        if (provider != null)
-          Semantics(
-            sortKey: ordinalSortKey(0.2),
-            child: selectButton(context),
-          ),
-        const SizedBox(width: 14),
+        confirmButton(context),
       ],
     );
     return ValueListenableBuilder(
       valueListenable: isDisplayingDetail,
-      builder: (_, v, child) => AnimatedPositionedDirectional(
+      builder: (_, v, child) => AnimatedOpacity(
         duration: kThemeAnimationDuration,
         curve: Curves.easeInOut,
-        top: v ? 0.0 : -(context.topPadding + bar.preferredSize.height),
-        start: 0.0,
-        end: 0.0,
+        opacity: v ? 1.0 : 0.0,
         child: child!,
       ),
-      child: bar,
+      child: Column(
+        children: [
+          bar,
+          if (provider != null)
+            Semantics(
+              sortKey: ordinalSortKey(0.2),
+              child: selectButton(context),
+            ),
+        ],
+      ),
     );
   }
 
@@ -786,6 +789,7 @@ class DefaultAssetPickerViewerBuilderDelegate
   /// any assets were chosen. Then, the assets picker will pop too.
   /// 当有资源已选时，点击按钮将把已选资源通过路由返回。
   /// 资源选择器将识别并一同返回。
+
   @override
   Widget confirmButton(BuildContext context) {
     return CNP<AssetPickerViewerProvider<AssetEntity>?>.value(
@@ -813,57 +817,47 @@ class DefaultAssetPickerViewerBuilderDelegate
             }
           }
 
-          String buildText() {
-            if (isWeChatMoment && hasVideo) {
-              return textDelegate.confirm;
-            }
-            if (provider!.isSelectedNotEmpty) {
-              return '${textDelegate.confirm}'
-                  ' (${provider.currentlySelectedAssets.length}'
-                  '/'
-                  '${selectorProvider!.maxAssets})';
-            }
-            return textDelegate.confirm;
-          }
-
           final isButtonEnabled = provider == null ||
               previewAssets.isEmpty ||
               (selectedAssets?.isNotEmpty ?? false);
-          return MaterialButton(
-            minWidth:
-                (isWeChatMoment && hasVideo) || provider!.isSelectedNotEmpty
-                    ? 48
-                    : 20,
-            height: 32,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            color: themeData.colorScheme.secondary,
-            disabledColor: themeData.splashColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(3),
-            ),
-            onPressed: isButtonEnabled ? onPressed : null,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            child: ScaleText(
-              buildText(),
-              style: TextStyle(
-                color: themeData.textTheme.bodyLarge?.color,
-                fontSize: 17,
-                fontWeight: FontWeight.normal,
+          return InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            onTap: isButtonEnabled ? onPressed : null,
+            child: SizedBox(
+              height: 32,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    if (provider!.isSelectedNotEmpty)
+                      ScaleText(
+                        '${provider.currentlySelectedAssets.length} ',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        semanticsLabel:
+                            '${provider.currentlySelectedAssets.length}',
+                      ),
+                    ScaleText(
+                      textDelegate.confirm,
+                      style: TextStyle(
+                        color: provider.isSelectedNotEmpty
+                            ? Colors.white
+                            : themeData.disabledColor,
+                        fontSize: 17,
+                        height: 1,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      semanticsLabel: textDelegate.confirm,
+                    ),
+                  ],
+                ),
               ),
-              overflow: TextOverflow.fade,
-              softWrap: false,
-              semanticsLabel: () {
-                if (isWeChatMoment && hasVideo) {
-                  return semanticsTextDelegate.confirm;
-                }
-                if (provider!.isSelectedNotEmpty) {
-                  return '${semanticsTextDelegate.confirm}'
-                      ' (${provider.currentlySelectedAssets.length}'
-                      '/'
-                      '${selectorProvider!.maxAssets})';
-                }
-                return semanticsTextDelegate.confirm;
-              }(),
             ),
           );
         },
@@ -884,7 +878,7 @@ class DefaultAssetPickerViewerBuilderDelegate
     }
 
     return Padding(
-      padding: const EdgeInsetsDirectional.only(end: 10.0),
+      padding: const EdgeInsetsDirectional.only(end: 12.0),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -893,10 +887,11 @@ class DefaultAssetPickerViewerBuilderDelegate
         },
         child: AnimatedContainer(
           duration: kThemeAnimationDuration,
-          width: 33.0,
+          width: 30.0,
+          height: 30.0,
           decoration: BoxDecoration(
             border: Border.all(
-              color: isSelected ? Colors.white : Colors.grey.shade300,
+              color: isSelected ? Colors.white : Colors.grey.shade500,
             ),
             color: isSelected ? themeData.primaryColor : null,
             shape: BoxShape.circle,
@@ -907,7 +902,7 @@ class DefaultAssetPickerViewerBuilderDelegate
                     '${selectedIndex + 1}',
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 17,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
