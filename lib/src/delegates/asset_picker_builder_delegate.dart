@@ -1373,28 +1373,26 @@ class DefaultAssetPickerBuilderDelegate
                       context.bottomPadding + bottomSectionHeight,
                     );
                     appBarPreferredSize ??= appBar(context).preferredSize;
-                    return Scrollbar(
-                      child: CustomScrollView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        controller: gridScrollController,
-                        anchor: gridRevert ? anchor : 0,
-                        center: gridRevert ? gridRevertKey : null,
-                        slivers: <Widget>[
-                          // if (isAppleOS(context))
-                          //   SliverGap.v(
-                          //     context.topPadding + appBarPreferredSize!.height,
-                          //   ),
-                          sliverGrid(context, assets),
-                          // Ignore the gap when the [anchor] is not equal to 1.
-                          if (gridRevert && anchor == 1) bottomGap,
-                          if (gridRevert)
-                            SliverToBoxAdapter(
-                              key: gridRevertKey,
-                              child: const SizedBox.shrink(),
-                            ),
-                          if (isAppleOS(context) && !gridRevert) bottomGap,
-                        ],
-                      ),
+                    return CustomScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      controller: gridScrollController,
+                      anchor: gridRevert ? anchor : 0,
+                      center: gridRevert ? gridRevertKey : null,
+                      slivers: <Widget>[
+                        // if (isAppleOS(context))
+                        //   SliverGap.v(
+                        //     context.topPadding + appBarPreferredSize!.height,
+                        //   ),
+                        sliverGrid(context, assets),
+                        // Ignore the gap when the [anchor] is not equal to 1.
+                        if (gridRevert && anchor == 1) bottomGap,
+                        if (gridRevert)
+                          SliverToBoxAdapter(
+                            key: gridRevertKey,
+                            child: const SizedBox.shrink(),
+                          ),
+                        if (isAppleOS(context) && !gridRevert) bottomGap,
+                      ],
                     );
                   },
                 ),
@@ -2220,7 +2218,7 @@ class DefaultAssetPickerBuilderDelegate
     return Selector<DefaultAssetPickerProvider, Map<String, dynamic>>(
       selector: (_, DefaultAssetPickerProvider p) => {
         'selectedDescriptions': p.selectedDescriptions,
-        'selectedAssets': p.selectedAssets
+        'selectedAssets': p.selectedAssets,
       },
       builder: (BuildContext context, Map<String, dynamic> data, __) {
         final bool selected =
@@ -2230,25 +2228,38 @@ class DefaultAssetPickerBuilderDelegate
           duration: duration,
           width: indicatorSize / (isAppleOS(context) ? 1.25 : 1.5),
           height: indicatorSize / (isAppleOS(context) ? 1.25 : 1.5),
-          padding: EdgeInsets.all(indicatorSize / 10),
           decoration: BoxDecoration(
             border: Border.all(
-              color: selected ? Colors.white : Colors.grey.shade300,
-              width: indicatorSize / 25,
+              color: Colors.grey.shade300,
+              width: 0.5,
             ),
-            color: selected ? theme.primaryColor : null,
+            color: Colors.grey.shade300.withValues(alpha: .3),
             shape: BoxShape.circle,
           ),
-          child: FittedBox(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.white,
+              ),
+              shape: BoxShape.circle,
+            ),
             child: AnimatedSwitcher(
               duration: duration,
               reverseDuration: duration,
               child: selected
-                  ? Text(
-                      '${selectedIndex + 1}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                  ? Container(
+                      decoration: BoxDecoration(
+                        color: theme.primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${selectedIndex + 1}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     )
                   : const SizedBox.shrink(),
