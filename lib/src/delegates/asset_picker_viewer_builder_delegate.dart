@@ -556,53 +556,46 @@ class DefaultAssetPickerViewerBuilderDelegate
 
   @override
   Widget bottomDetailBuilder(BuildContext context) {
-    // final backgroundColor = themeData.appBarTheme.backgroundColor;
-    //     ?.withOpacity(
-    //   themeData.bottomAppBarTheme.color!.opacity *
-    //       (isAppleOS(context) ? .9 : 1),
-    // );
     return ValueListenableBuilder(
       valueListenable: isDisplayingDetail,
-      builder: (_, v, child) => AnimatedPositionedDirectional(
+      builder: (_, v, child) => AnimatedOpacity(
         duration: kThemeAnimationDuration,
         curve: Curves.easeInOut,
-        bottom: v ? 0.0 : -(context.bottomPadding + bottomDetailHeight),
-        start: 0.0,
-        end: 0.0,
-        height: context.bottomPadding + bottomDetailHeight,
+        opacity: v ? 1.0 : 0.0,
         child: child!,
       ),
-      child: CNP<AssetPickerViewerProvider<AssetEntity>?>.value(
-        value: provider,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            if (provider != null)
-              ValueListenableBuilder<int>(
-                valueListenable: selectedNotifier,
-                builder: (_, int count, __) => Container(
-                  width: count > 0 ? double.maxFinite : 0,
-                  height: bottomPreviewHeight,
-                  child: ListView.builder(
-                    controller: previewingListController,
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: count,
-                    itemBuilder: bottomDetailItemBuilder,
-                  ),
-                ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          InkWell(
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
+            onTap: () async {
+              // final File? file = await selectedAssets!.first.file;
+              // Navigator.of(context).push(MaterialPageRoute(
+              //     builder: (context) => FrostedGlassExample(
+              //           url: file!,
+              //         )));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade800.withValues(alpha: .5),
+                borderRadius: const BorderRadius.all(Radius.circular(30)),
               ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0)
-                  .copyWith(bottom: context.bottomPadding),
-              // decoration: BoxDecoration(
-              // border: Border(top: BorderSide(color: themeData.primaryColor)),
-              // ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 10,
+              ),
+              child: const Text(
+                '사진 편집',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
             ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: context.bottomPadding + 20,
+          ),
+        ],
       ),
     );
   }
@@ -891,19 +884,27 @@ class DefaultAssetPickerViewerBuilderDelegate
           height: 30.0,
           decoration: BoxDecoration(
             border: Border.all(
-              color: isSelected ? Colors.white : Colors.grey.shade500,
+              color: Colors.grey.shade500,
             ),
-            color: isSelected ? themeData.primaryColor : null,
             shape: BoxShape.circle,
           ),
           child: isSelected
-              ? Center(
-                  child: Text(
-                    '${selectedIndex + 1}',
-                    style: const TextStyle(
+              ? Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
                       color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    ),
+                    color: themeData.primaryColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      '${selectedIndex + 1}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 )
@@ -1036,7 +1037,12 @@ class DefaultAssetPickerViewerBuilderDelegate
                 appBar(context),
                 if (selectedAssets != null ||
                     (isWeChatMoment && hasVideo && isAppleOS(context)))
-                  bottomDetailBuilder(context),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: bottomDetailBuilder(context),
+                  ),
               ],
             ],
           ),
