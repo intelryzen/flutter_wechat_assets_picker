@@ -2213,7 +2213,8 @@ class DefaultAssetPickerBuilderDelegate
   @override
   Widget selectIndicator(BuildContext context, int index, AssetEntity asset) {
     final double indicatorSize =
-        MediaQuery.sizeOf(context).width / gridCount / 4;
+        MediaQuery.sizeOf(context).width / gridCount / (gridCount <= 3 ? 4 : 3);
+    final double fontSize = indicatorSize / 2.4;
     final Duration duration = switchingPathDuration * 0.75;
     return Selector<DefaultAssetPickerProvider, Map<String, dynamic>>(
       selector: (_, DefaultAssetPickerProvider p) => {
@@ -2255,8 +2256,9 @@ class DefaultAssetPickerBuilderDelegate
                       child: Center(
                         child: Text(
                           '${selectedIndex + 1}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
+                            fontSize: fontSize,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
