@@ -689,7 +689,7 @@ abstract class AssetPickerBuilderDelegate<Asset, Path> {
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       child: ScaleText(
         textDelegate.goToSystemSettings,
-        style: const TextStyle(fontSize: 17),
+        style: const TextStyle(fontSize: 17, color: Colors.white),
         semanticsLabel: semanticsTextDelegate.goToSystemSettings,
       ),
     );
