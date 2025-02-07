@@ -844,7 +844,7 @@ class DefaultAssetPickerViewerBuilderDelegate
                       style: TextStyle(
                         color: provider.isSelectedNotEmpty
                             ? Colors.white
-                            : themeData.disabledColor,
+                            : const Color(0xFF949494),
                         fontSize: 17,
                         height: 1,
                         fontWeight: FontWeight.normal,
