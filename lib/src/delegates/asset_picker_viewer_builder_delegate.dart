@@ -1038,14 +1038,14 @@ class DefaultAssetPickerViewerBuilderDelegate
                 ),
               ] else ...<Widget>[
                 appBar(context),
-                if (selectedAssets != null ||
-                    (isWeChatMoment && hasVideo && isAppleOS(context)))
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: bottomDetailBuilder(context),
-                  ),
+                // if (selectedAssets != null ||
+                //     (isWeChatMoment && hasVideo && isAppleOS(context)))
+                //   Positioned(
+                //     bottom: 0,
+                //     left: 0,
+                //     right: 0,
+                //     child: bottomDetailBuilder(context),
+                //   ),
               ],
             ],
           ),
