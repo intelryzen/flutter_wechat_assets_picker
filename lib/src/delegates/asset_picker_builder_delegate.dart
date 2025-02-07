@@ -2202,7 +2202,7 @@ class DefaultAssetPickerBuilderDelegate
                     p.selectedAssets.isNotEmpty);
         if (isDisabled) {
           return Container(
-            color: theme.colorScheme.background.withOpacity(.85),
+            color: theme.colorScheme.background.withOpacity(.0),
           );
         }
         return const SizedBox.shrink();
