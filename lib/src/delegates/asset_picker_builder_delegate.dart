@@ -2313,11 +2313,13 @@ class DefaultAssetPickerBuilderDelegate
             return AnimatedContainer(
               duration: switchingPathDuration,
               padding: EdgeInsets.all(indicatorSize * .35),
-              color: selected
-                  ? Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white.withOpacity(.25)
-                      : Colors.black.withOpacity(.25)
-                  : theme.colorScheme.background.withOpacity(.0),
+              color:
+                  // selected
+                  //     ? Theme.of(context).brightness == Brightness.dark
+                  //         ? Colors.white.withOpacity(.25)
+                  //         : Colors.black.withOpacity(.25)
+                  //     :
+                  theme.colorScheme.background.withOpacity(.0),
               child:
                   // selected && !isSingleAssetMode
                   //     ? Align(
