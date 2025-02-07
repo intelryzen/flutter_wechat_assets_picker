@@ -5,21 +5,22 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:pro_image_editor/designs/frosted_glass/frosted_glass.dart';
 import 'package:pro_image_editor/pro_image_editor.dart';
 import 'package:wechat_assets_picker/src/widget/editor/demo_build_stickers.dart';
 import 'package:wechat_assets_picker/src/widget/editor/example_helper.dart';
+import '../../delegates/asset_picker_viewer_builder_delegate.dart';
 
 /// The frosted glass design example
 class FrostedGlassExample extends StatefulWidget {
   /// Creates a new [FrostedGlassExample] widget.
   const FrostedGlassExample({
     super.key,
-    required this.url,
+    required this.assets,
   });
 
-  /// The URL of the image to display.
-  final File url;
+  final List<AssetEntity> assets;
 
   @override
   State<FrostedGlassExample> createState() => _FrostedGlassExampleState();
@@ -55,7 +56,7 @@ class _FrostedGlassExampleState extends State<FrostedGlassExample>
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return ProImageEditor.file(
-        widget.url,
+        File("widget.assets.first.title"),
         key: editorKey,
         callbacks: ProImageEditorCallbacks(
             onImageEditingStarted: onImageEditingStarted,

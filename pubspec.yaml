@@ -30,6 +30,11 @@ dependencies:
   provider: ^6.0.5
   video_player: ^2.7.0
   visibility_detector: ^0.4.0
+  pro_image_editor: ^8.1.2
+  google_fonts: ^6.2.1
+  file_saver: ^0.2.14
+  gal: ^2.3.1
+  bot_toast: ^4.1.0
 
 dev_dependencies:
   flutter_lints: any

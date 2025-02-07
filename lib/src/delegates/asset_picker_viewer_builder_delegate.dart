@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:wechat_assets_picker/src/widget/editor/asset_editor.dart';
 import 'package:wechat_picker_library/wechat_picker_library.dart';
 
 import '../constants/custom_scroll_physics.dart';
@@ -570,12 +571,14 @@ class DefaultAssetPickerViewerBuilderDelegate
         children: <Widget>[
           InkWell(
             borderRadius: const BorderRadius.all(Radius.circular(30)),
-            onTap: () async {
-              // final File? file = await selectedAssets!.first.file;
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (context) => FrostedGlassExample(
-              //           url: file!,
-              //         )));
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => FrostedGlassExample(
+                    assets: selectedAssets??[],
+                  ),
+                ),
+              );
             },
             child: Container(
               decoration: BoxDecoration(

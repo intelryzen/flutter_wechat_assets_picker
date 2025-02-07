@@ -34,7 +34,10 @@ class PickMethod {
         return AssetPicker.pickAssets(
           context,
           pickerConfig: AssetPickerConfig(
-            maxAssets: maxAssetsCount,
+            shouldRevertGrid: false,
+            gridCount: 3,
+            pageSize: 30,specialPickerType: SpecialPickerType.noPreview,
+            maxAssets: 1,
             selectedAssets: assets,
           ),
         );
