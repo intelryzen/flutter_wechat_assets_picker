@@ -151,11 +151,8 @@ abstract class AssetPickerBuilderDelegate<Asset, Path> {
 
   /// The color for interactive texts.
   /// 可交互的文字的颜色
-  Color interactiveTextColor(BuildContext context) => Color.lerp(
-        context.iconTheme.color?.withOpacity(.7) ?? Colors.white,
-        Colors.blueAccent,
-        0.4,
-      )!;
+  Color interactiveTextColor(BuildContext context) =>
+      Color.lerp(theme.hintColor, theme.hintColor, 0.4)!;
 
   /// Whether the current platform is Apple OS.
   /// 当前平台是否苹果系列系统 (iOS & MacOS)
@@ -684,7 +681,7 @@ abstract class AssetPickerBuilderDelegate<Asset, Path> {
       minWidth: size.width / 2,
       height: appBarItemHeight * 1.25,
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      color: themeColor,
+      color: theme.primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),
@@ -723,7 +720,7 @@ abstract class AssetPickerBuilderDelegate<Asset, Path> {
               color: context.theme.canvasColor,
               child: Column(
                 children: <Widget>[
-                  closeButton,
+                  // closeButton,
                   Expanded(child: limitedTips),
                   goToSettingsButton,
                   SizedBox(height: size.height / 18),
@@ -2416,12 +2413,13 @@ class DefaultAssetPickerBuilderDelegate
         padding: const EdgeInsets.symmetric(horizontal: 10)
             .add(EdgeInsets.only(bottom: bottomPadding)),
         height: permissionLimitedBarHeight + bottomPadding,
-        color: theme.primaryColor.withOpacity(isAppleOS(context) ? 0.90 : 1),
+        color: theme.scaffoldBackgroundColor
+            .withOpacity(isAppleOS(context) ? 0.90 : 1),
         child: Row(
           children: <Widget>[
             const SizedBox(width: 5),
             Icon(
-              Icons.warning,
+              Icons.warning_rounded,
               color: Colors.orange[400]!.withOpacity(.8),
             ),
             const SizedBox(width: 15),
