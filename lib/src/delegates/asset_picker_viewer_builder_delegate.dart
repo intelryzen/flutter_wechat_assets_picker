@@ -978,17 +978,17 @@ class DefaultAssetPickerViewerBuilderDelegate
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    if (isAppleOS(context))
+                    // if (isAppleOS(context))
                       _appleOSSelectButton(
-                          context, isSelected, selectedIndex, asset)
-                    else
-                      _androidSelectButton(context, isSelected, asset),
-                    if (!isAppleOS(context))
-                      ScaleText(
-                        textDelegate.select,
-                        style: const TextStyle(fontSize: 17, height: 1.2),
-                        semanticsLabel: semanticsTextDelegate.select,
-                      ),
+                          context, isSelected, selectedIndex, asset),
+                    // else
+                    //   _androidSelectButton(context, isSelected, asset),
+                    // if (!isAppleOS(context))
+                    //   ScaleText(
+                    //     textDelegate.select,
+                    //     style: const TextStyle(fontSize: 17, height: 1.2),
+                    //     semanticsLabel: semanticsTextDelegate.select,
+                    //   ),
                   ],
                 ),
               );

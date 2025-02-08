@@ -1131,7 +1131,7 @@ class DefaultAssetPickerBuilderDelegate
       appBar: appBar(context),
       body: Consumer<DefaultAssetPickerProvider>(
         builder: (BuildContext context, DefaultAssetPickerProvider p, _) {
-          final bool shouldDisplayAssets =
+           final bool shouldDisplayAssets =
               p.hasAssetsToDisplay || shouldBuildSpecialItem;
           return AnimatedSwitcher(
             duration: switchingPathDuration,
@@ -2510,10 +2510,10 @@ class DefaultAssetPickerBuilderDelegate
             body: Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                if (isAppleOS(context))
-                  appleOSLayout(context)
-                else
-                  androidLayout(context),
+                // if (isAppleOS(context))
+                  appleOSLayout(context),
+                // else
+                //   androidLayout(context),
                 permissionOverlay(context),
               ],
             ),
