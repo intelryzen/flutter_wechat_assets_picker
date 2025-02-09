@@ -2275,7 +2275,7 @@ class DefaultAssetPickerBuilderDelegate
             width: isPreviewEnabled ? indicatorSize : null,
             height: isPreviewEnabled ? indicatorSize : null,
             alignment: AlignmentDirectional.topEnd,
-            child: (!isPreviewEnabled && isSingleAssetMode && !selected)
+            child: (!isPreviewEnabled && isSingleAssetMode)
                 ? const SizedBox.shrink()
                 : innerSelector,
           ),
