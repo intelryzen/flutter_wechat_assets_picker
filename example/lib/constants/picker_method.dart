@@ -35,8 +35,9 @@ class PickMethod {
           context,
           pickerConfig: AssetPickerConfig(
             shouldRevertGrid: false,
-            gridCount: 3,
-            pageSize: 30,specialPickerType: SpecialPickerType.noPreview,
+            gridCount: 1,
+            pageSize: 30,
+            // specialPickerType: SpecialPickerType.noPreview,
             maxAssets: 1,
             selectedAssets: assets,
           ),
